@@ -113,7 +113,7 @@ class SportsWalking(Training):
                                     * self.KMH_IN_MSEC)
                                     ** 2
                                     / (self.height
-                                       / self.CM_IN_M)
+                                       / self.CM_IN_M))
                                  * self.CALORIES_SPEED_HEIGHT_MULTIPLIER
                                  * self.weight)
                                  * self.duration
