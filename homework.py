@@ -36,7 +36,7 @@ class InfoMessage:
 class Training:
     """Базовый класс тренировки."""
     M_IN_KM: int = 1000
-    LEN_STEP: float = 0.0
+    LEN_STEP: float = 0.65
     PARAM_ACCUR: int = 3           # Кол-во знаков после запятой в расчетах.
 
     def __init__(self, data: list) -> None:
@@ -117,8 +117,8 @@ class SportsWalking(Training):
 class Swimming(Training):
     """Тренировка: плавание."""
     LEN_STEP: float = 1.38
-    SPEED_COEFF: float = 1.1
-    SPEED_MULTIPIER: int = 2
+    CALORIES_MEAN_SPEED_SHIFT: float = 1.1
+    CALORIES_WEIGHT_MULTIPLIER: int = 2
 
     def __init__(self, data: list) -> None:
         super().__init__(data)
@@ -135,8 +135,8 @@ class Swimming(Training):
 
     def get_spent_calories(self) -> float:
         spent_calories: float = ((self.get_mean_speed()
-                                 + 1.1)
-                                 * self.SPEED_MULTIPIER
+                                 + self.CALORIES_MEAN_SPEED_SHIFT)
+                                 * self.CALORIES_WEIGHT_MULTIPLIER
                                  * self.weight
                                  * self.duration)
         spent_calories = round(spent_calories, self.PARAM_ACCUR)
