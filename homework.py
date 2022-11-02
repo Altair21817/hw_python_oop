@@ -99,6 +99,7 @@ class SportsWalking(Training):
     LEN_STEP: float = 0.65
     CALORIES_WEIGHT_MULTIPLIER: float = 0.035
     CALORIES_SPEED_HEIGHT_MULTIPLIER: float = 0.029
+    KMH_IN_MSEC: float = 0.278
 
     def __init__(self, data: list) -> None:
         super().__init__(data)
@@ -107,7 +108,9 @@ class SportsWalking(Training):
     def get_spent_calories(self) -> float:
         spent_calories: float = ((self.CALORIES_WEIGHT_MULTIPLIER
                                  * self.weight
-                                 + (self.get_mean_speed() ** 2
+                                 + ((self.get_mean_speed() *
+                                     self.KMH_IN_MSEC)
+                                    ** 2
                                     / self.weight)
                                  * self.CALORIES_SPEED_HEIGHT_MULTIPLIER
                                  * self.weight)
