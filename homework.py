@@ -39,7 +39,7 @@ class Training:
     LEN_STEP: float = 0.65
     MIN_IN_H: int = 60
     PARAM_ACCUR: int = 3           # Кол-во знаков после запятой в расчетах.
-    
+
     def __init__(self, data: list) -> None:
         self.action = data[0]                # Получает данные в ед.изм "шт."
         self.duration = data[1]              # Получает данные в ед.изм "ч."
