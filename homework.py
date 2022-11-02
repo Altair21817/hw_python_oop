@@ -37,8 +37,8 @@ class Training:
     """Базовый класс тренировки."""
     M_IN_KM: int = 1000
     LEN_STEP: float = 0.65
-    PARAM_ACCUR: int = 3           # Кол-во знаков после запятой в расчетах.
     MIN_IN_H: int = 60
+    PARAM_ACCUR: int = 3           # Кол-во знаков после запятой в расчетах.
 
     def __init__(self, data: list) -> None:
         self.action = data[0]                # Получает данные в ед.изм "шт."
@@ -97,19 +97,19 @@ class Running(Training):
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
     LEN_STEP: float = 0.65
-    WALKING_MULTIPLIER_1: float = 0.035
-    WALKING_MULTIPLIER_2: float = 0.029
+    CALORIES_WEIGHT_MULTIPLIER: float = 0.035
+    CALORIES_WEIGHT_MULTIPLIER_2: float = 0.029
 
     def __init__(self, data: list) -> None:
         super().__init__(data)
         self.height = data[3]
 
     def get_spent_calories(self) -> float:
-        spent_calories: float = ((self.WALKING_MULTIPLIER_1
+        spent_calories: float = ((self.CALORIES_WEIGHT_MULTIPLIER
                                  * self.weight
                                  + (self.get_mean_speed() ** 2
                                     / self.weight)
-                                 * self.WALKING_MULTIPLIER_2
+                                 * self.CALORIES_WEIGHT_MULTIPLIER_2
                                  * self.weight)
                                  * self.duration
                                  * self.MIN_IN_H)
@@ -141,8 +141,7 @@ class Swimming(Training):
                                  + self.CALORIES_MEAN_SPEED_SHIFT)
                                  * self.CALORIES_WEIGHT_MULTIPLIER
                                  * self.weight
-                                 * self.duration
-                                 * self.MIN_IN_H)
+                                 * self.duration)
         spent_calories = round(spent_calories, self.PARAM_ACCUR)
         return spent_calories
 
