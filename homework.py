@@ -57,7 +57,7 @@ class Training:
         """Получить количество затраченных калорий."""
         pass
 
-    def show_training_info(self) -> str:
+    def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
         training_type = type(self).__name__
         distance = self.get_distance()
