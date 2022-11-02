@@ -20,16 +20,13 @@ class InfoMessage:
         self.calories = calories
 
     def get_message(self) -> str:
-        WORKOUT_CLASSES_NAMES: dict = {'Swimming': 'плавание',
-                                       'Running': 'бег',
-                                       'SportsWalking': 'спортивная ходьба'
-                                       }
-        training_type: str = WORKOUT_CLASSES_NAMES[self.training_type]
+        PARAM_ACCUR: int = 3        # Кол-во знаков после запятой в расчетах.
+        training_type: str = self.training_type
         message: str = (f'Тип тренировки: {training_type}; '
-                        f'Длительность: {self.duration} ч.; '
-                        f'Дистанция: {self.distance} км; '
-                        f'Ср. скорость: {self.speed} км/ч; '
-                        f'Потрачено ккал: {self.calories}.')
+                        f'Длительность: {self.duration:.{PARAM_ACCUR}f} ч.; '
+                        f'Дистанция: {self.distance:.{PARAM_ACCUR}f} км; '
+                        f'Ср. скорость: {self.speed:.{PARAM_ACCUR}f} км/ч; '
+                        f'Потрачено ккал: {self.calories:.{PARAM_ACCUR}f}.')
         return message
 
 
@@ -38,7 +35,6 @@ class Training:
     M_IN_KM: int = 1000
     LEN_STEP: float = 0.65
     MIN_IN_H: int = 60
-    PARAM_ACCUR: int = 3           # Кол-во знаков после запятой в расчетах.
 
     def __init__(self, data: list) -> None:
         self.action = data[0]                # Получает данные в ед.изм "шт."
@@ -48,14 +44,12 @@ class Training:
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
         distance: float = self.action * self.LEN_STEP / self.M_IN_KM
-        distance = round(distance, self.PARAM_ACCUR)
         return distance
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
         distance = self.get_distance()
         mean_speed: float = distance / self.duration
-        mean_speed = round(mean_speed, self.PARAM_ACCUR)
         return mean_speed
 
     def get_spent_calories(self) -> float:
@@ -90,7 +84,6 @@ class Running(Training):
                                  / self.M_IN_KM
                                  * self.duration
                                  * self.MIN_IN_H)
-        spent_calories = round(spent_calories, self.PARAM_ACCUR)
         return spent_calories
 
 
@@ -118,7 +111,6 @@ class SportsWalking(Training):
                                  * self.weight)
                                  * self.duration
                                  * self.MIN_IN_H)
-        spent_calories = round(spent_calories, self.PARAM_ACCUR)
         return spent_calories
 
 
@@ -138,7 +130,6 @@ class Swimming(Training):
                              * self.count_pool
                              / self.M_IN_KM
                              / self.duration)
-        mean_speed = round(mean_speed, self.PARAM_ACCUR)
         return mean_speed
 
     def get_spent_calories(self) -> float:
@@ -147,7 +138,6 @@ class Swimming(Training):
                                  * self.CALORIES_WEIGHT_MULTIPLIER
                                  * self.weight
                                  * self.duration)
-        spent_calories = round(spent_calories, self.PARAM_ACCUR)
         return spent_calories
 
 
@@ -170,8 +160,8 @@ def main(training: Training) -> None:
 if __name__ == '__main__':
     packages = [
         ('SWM', [720, 1, 80, 25, 40]),
-        ('RUN', [15000, 1, 75]),
-        ('WLK', [9000, 1, 75, 180]),
+        ('RUN', [9000, 1.5, 75, 180]),
+        ('WLK', [3000.33, 2.512, 75.8, 180.1]),
     ]
 
     for workout_type, data in packages:
