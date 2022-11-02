@@ -39,7 +39,7 @@ class Training:
     LEN_STEP: float = 0.65
     MIN_IN_H: int = 60
     PARAM_ACCUR: int = 3           # Кол-во знаков после запятой в расчетах.
-
+    
     def __init__(self, data: list) -> None:
         self.action = data[0]                # Получает данные в ед.изм "шт."
         self.duration = data[1]              # Получает данные в ед.изм "ч."
@@ -100,6 +100,7 @@ class SportsWalking(Training):
     CALORIES_WEIGHT_MULTIPLIER: float = 0.035
     CALORIES_SPEED_HEIGHT_MULTIPLIER: float = 0.029
     KMH_IN_MSEC: float = 0.278
+    CM_IN_M: int = 100
 
     def __init__(self, data: list) -> None:
         super().__init__(data)
@@ -111,7 +112,8 @@ class SportsWalking(Training):
                                  + ((self.get_mean_speed()
                                     * self.KMH_IN_MSEC)
                                     ** 2
-                                    / self.weight)
+                                    / (self.height
+                                       / self.CM_IN_M)
                                  * self.CALORIES_SPEED_HEIGHT_MULTIPLIER
                                  * self.weight)
                                  * self.duration
