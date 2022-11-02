@@ -68,7 +68,7 @@ class Training:
                                             distance,
                                             mean_speed,
                                             calories)
-        return training.get_message()
+        return training
 
 
 class Running(Training):
@@ -156,7 +156,8 @@ def read_package(workout_type: str, data: list) -> Training:
 
 def main(training: Training) -> None:
     """Главная функция."""
-    info: str = training.show_training_info()
+    info_first: InfoMessage = training.show_training_info()
+    info: str = info_first.get_message()
     return print(info)
 
 
