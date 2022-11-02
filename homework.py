@@ -98,7 +98,7 @@ class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
     LEN_STEP: float = 0.65
     CALORIES_WEIGHT_MULTIPLIER: float = 0.035
-    CALORIES_WEIGHT_MULTIPLIER_2: float = 0.029
+    CALORIES_SPEED_HEIGHT_MULTIPLIER: float = 0.029
 
     def __init__(self, data: list) -> None:
         super().__init__(data)
@@ -109,7 +109,7 @@ class SportsWalking(Training):
                                  * self.weight
                                  + (self.get_mean_speed() ** 2
                                     / self.weight)
-                                 * self.CALORIES_WEIGHT_MULTIPLIER_2
+                                 * self.CALORIES_SPEED_HEIGHT_MULTIPLIER
                                  * self.weight)
                                  * self.duration
                                  * self.MIN_IN_H)
