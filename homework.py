@@ -68,8 +68,7 @@ class Training:
                                             distance,
                                             mean_speed,
                                             calories)
-        training_message: str = training.get_message()
-        return training_message
+        return training.get_message()
 
 
 class Running(Training):
