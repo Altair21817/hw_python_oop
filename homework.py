@@ -42,28 +42,28 @@ class Training:
     MIN_IN_H: int = 60
 
     def __init__(self,
-                 action_pcs: float,
-                 duration_h: float,
-                 weight_kg: float,
+                 action: float,
+                 duration: float,
+                 weight: float,
                  *args: list
                  ) -> None:
         # Получает данные в ед.изм "шт.":
-        self.action_pcs: float = action_pcs
+        self.action: float = action
         # Получает данные в ед.изм "ч.":
-        self.duration_h: float = duration_h
+        self.duration: float = duration
         # Получает данные в ед.изм "кг":
-        self.weight_kg: float = weight_kg
+        self.weight: float = weight
 
     def get_distance(self) -> float:
         """Возвращает дистанцию в км."""
-        distance_km: float = self.action_pcs * self.LEN_STEP / self.M_IN_KM
+        distance_km: float = self.action * self.LEN_STEP / self.M_IN_KM
         return distance_km
 
     def get_mean_speed(self) -> float:
         """Возвращает среднюю скорость движения."""
-        distance_km: float = self.get_distance()
-        mean_speed_kmph: float = distance_km / self.duration_h
-        return mean_speed_kmph
+        distance: float = self.get_distance()
+        mean_speed: float = distance / self.duration
+        return mean_speed
 
     def get_spent_calories(self) -> float:
         """Возвращает количество затраченных калорий."""
@@ -72,7 +72,7 @@ class Training:
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
         training: InfoMessage = InfoMessage(type(self).__name__,
-                                            self.duration_h,
+                                            self.duration,
                                             self.get_distance(),
                                             self.get_mean_speed(),
                                             self.get_spent_calories())
@@ -90,9 +90,9 @@ class Running(Training):
         spent_calories_kkal: float = ((self.CALORIES_MEAN_SPEED_MULTIPLIER
                                       * self.get_mean_speed()
                                       + self.CALORIES_MEAN_SPEED_SHIFT)
-                                      * self.weight_kg
+                                      * self.weight
                                       / self.M_IN_KM
-                                      * self.duration_h
+                                      * self.duration
                                       * self.MIN_IN_H)
         return spent_calories_kkal
 
@@ -106,27 +106,27 @@ class SportsWalking(Training):
     CM_IN_M: int = 100
 
     def __init__(self,
-                 action_pcs: float,
-                 duration_h: float,
-                 weight_kg: float,
-                 height_cm: float,
+                 action: float,
+                 duration: float,
+                 weight: float,
+                 height: float,
                  *args: list
                  ) -> None:
-        super().__init__(action_pcs, duration_h, weight_kg)
-        self.height_cm: float = height_cm
+        super().__init__(action, duration, weight)
+        self.height: float = height
 
     def get_spent_calories(self) -> float:
         """Возвращает количество затраченных калорий."""
         spent_calories_kkal: float = ((self.CALORIES_WEIGHT_MULTIPLIER
-                                       * self.weight_kg
+                                       * self.weight
                                        + ((self.get_mean_speed()
                                            * self.KMH_IN_MSEC)
                                            ** 2
-                                           / (self.height_cm
+                                           / (self.height
                                               / self.CM_IN_M))
                                        * self.CALORIES_SPEED_HEIGHT_MULTIPLIER
-                                       * self.weight_kg)
-                                      * self.duration_h
+                                       * self.weight)
+                                      * self.duration
                                       * self.MIN_IN_H)
         return spent_calories_kkal
 
@@ -138,33 +138,33 @@ class Swimming(Training):
     CALORIES_WEIGHT_MULTIPLIER: int = 2
 
     def __init__(self,
-                 action_pcs: float,
-                 duration_h: float,
-                 weight_kg: float,
-                 length_pool_m: float,
-                 count_pool_pcs: int,
+                 action: float,
+                 duration: float,
+                 weight: float,
+                 length_pool: float,
+                 count_pool: int,
                  *args: list
                  ) -> None:
-        super().__init__(action_pcs, duration_h, weight_kg)
-        self.length_pool_m: float = length_pool_m
-        self.count_pool_pcs: int = count_pool_pcs
+        super().__init__(action, duration, weight)
+        self.length_pool: float = length_pool
+        self.count_pool: int = count_pool
 
     def get_mean_speed(self) -> float:
         """Возвращает среднюю скорость движения."""
-        mean_speed_kmph: float = (self.length_pool_m
-                                  * self.count_pool_pcs
+        mean_speed: float = (self.length_pool
+                                  * self.count_pool
                                   / self.M_IN_KM
-                                  / self.duration_h)
-        return mean_speed_kmph
+                                  / self.duration)
+        return mean_speed
 
     def get_spent_calories(self) -> float:
         """Возвращает количество затраченных калорий."""
-        spent_calories_kkal: float = ((self.get_mean_speed()
+        spent_calories: float = ((self.get_mean_speed()
                                       + self.CALORIES_MEAN_SPEED_SHIFT)
                                       * self.CALORIES_WEIGHT_MULTIPLIER
-                                      * self.weight_kg
-                                      * self.duration_h)
-        return spent_calories_kkal
+                                      * self.weight
+                                      * self.duration)
+        return spent_calories
 
 
 def read_package(workout_type: str, data: list) -> Training:
