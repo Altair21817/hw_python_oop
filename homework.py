@@ -4,18 +4,22 @@
 Все права не защищены.
 """
 
-from dataclasses import dataclass
 from typing import Type
 
 
-@dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
-    training_type: str
-    duration_h: float
-    distance_km: float
-    speed_kmph: float
-    calories_kkal: float
+    def __init__(self, training_type: str,
+                 duration: float,
+                 distance: float,
+                 speed: float,
+                 calories: float
+                 ) -> None:
+        self.training_type = training_type
+        self.duration = duration
+        self.distance = distance
+        self.speed = speed
+        self.calories = calories
 
     def get_message(self) -> str:
         """Возвращает Информационное сообщение."""
@@ -24,10 +28,10 @@ class InfoMessage:
         training_type: str = self.training_type
 
         message: str = (f'Тип тренировки: {training_type}; '
-                        f'Длительность: {self.duration_h:.{ACCURACY}f} ч.; '
-                        f'Дистанция: {self.distance_km:.{ACCURACY}f} км; '
-                        f'Ср. скорость: {self.speed_kmph:.{ACCURACY}f} км/ч; '
-                        f'Потрачено ккал: {self.calories_kkal:.{ACCURACY}f}.')
+                        f'Длительность: {self.duration:.{ACCURACY}f} ч.; '
+                        f'Дистанция: {self.distance:.{ACCURACY}f} км; '
+                        f'Ср. скорость: {self.speed:.{ACCURACY}f} км/ч; '
+                        f'Потрачено ккал: {self.calories:.{ACCURACY}f}.')
         return message
 
 
