@@ -27,7 +27,7 @@ class InfoMessage:
         return message.format(**asdict(self))
 """
 class InfoMessage:
-    ""Информационное сообщение о тренировке.""
+    """Информационное сообщение о тренировке."""
     def __init__(self, training_type: str,
                  duration: float,
                  distance: float,
@@ -41,16 +41,17 @@ class InfoMessage:
         self.calories = calories
 
     def get_message(self) -> str:
-        ""Возвращает Информационное сообщение.""
+        """Возвращает Информационное сообщение."""
         ACCURACY: int = 3
         training_type: str = self.training_type
+        message: str = (f'Тип тренировки: {training_type}; ' 
+                        f'Длительность: {self.duration:.{ACCURACY}f} ч.; ' 
+                        f'Дистанция: {self.distance:.{ACCURACY}f} км; ' 
+                        f'Ср. скорость: {self.speed:.{ACCURACY}f} км/ч; ' 
+                        f'Потрачено ккал: {self.calories:.{ACCURACY}f}.') 
+        return message 
 
-        message: ClassVar[str] = (f'Тип тренировки: {}; '
-                        f'Длительность: {:.{ACCURACY}f} ч.; '
-                        f'Дистанция: {:.{ACCURACY}f} км; '
-                        f'Ср. скорость: {:.{ACCURACY}f} км/ч; '
-                        f'Потрачено ккал: {:.{ACCURACY}f}.')
-        return message.format(**as)
+ 
 
 
 class Training:
