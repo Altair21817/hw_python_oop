@@ -3,10 +3,11 @@
 Разработана Altair21817.
 Все права не защищены.
 """
-from dataclasses import asdict, dataclass
-
 
 """
+# from dataclasses import asdict, dataclass
+
+
 @dataclass
 class InfoMessage:
     ""Информационное сообщение о тренировке.""
@@ -26,6 +27,8 @@ class InfoMessage:
                         'Потрачено ккал: {calories:.3f}.')
         return message.format(**asdict(self))
 """
+
+
 class InfoMessage:
     """Информационное сообщение о тренировке."""
     def __init__(self, training_type: str,
@@ -44,14 +47,12 @@ class InfoMessage:
         """Возвращает Информационное сообщение."""
         ACCURACY: int = 3
         training_type: str = self.training_type
-        message: str = (f'Тип тренировки: {training_type}; ' 
-                        f'Длительность: {self.duration:.{ACCURACY}f} ч.; ' 
-                        f'Дистанция: {self.distance:.{ACCURACY}f} км; ' 
-                        f'Ср. скорость: {self.speed:.{ACCURACY}f} км/ч; ' 
-                        f'Потрачено ккал: {self.calories:.{ACCURACY}f}.') 
-        return message 
-
- 
+        message: str = (f'Тип тренировки: {training_type}; '
+                        f'Длительность: {self.duration:.{ACCURACY}f} ч.; '
+                        f'Дистанция: {self.distance:.{ACCURACY}f} км; '
+                        f'Ср. скорость: {self.speed:.{ACCURACY}f} км/ч; '
+                        f'Потрачено ккал: {self.calories:.{ACCURACY}f}.')
+        return message
 
 
 class Training:
