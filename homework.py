@@ -3,12 +3,32 @@
 Разработана Altair21817.
 Все права не защищены.
 """
+from dataclasses import asdict, dataclass
 
-from typing import Type
 
-
+@dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
+    trainig_type: str
+    duration: float
+    distance: float
+    speed: float
+    calories: float
+
+    def get_message(self) -> str:
+        """Возвращает Информационное сообщение."""
+
+        message: str = ('Тип тренировки: {trainig_type}; '
+                        'Длительность: {duration:.3f} ч.; '
+                        'Дистанция: {distance:.3f} км; '
+                        'Ср. скорость: {speed:.3f} км/ч; '
+                        'Потрачено ккал: {calories:.3f}.')
+        return message.format(**asdict(self))
+
+
+"""
+class InfoMessage:
+    ""Информационное сообщение о тренировке.""
     def __init__(self, training_type: str,
                  duration: float,
                  distance: float,
@@ -22,17 +42,17 @@ class InfoMessage:
         self.calories = calories
 
     def get_message(self) -> str:
-        """Возвращает Информационное сообщение."""
-        # Определяет обязательно количество знаков после точки в числах float:
+        ""Возвращает Информационное сообщение.""
         ACCURACY: int = 3
         training_type: str = self.training_type
 
-        message: str = (f'Тип тренировки: {training_type}; '
-                        f'Длительность: {self.duration:.{ACCURACY}f} ч.; '
-                        f'Дистанция: {self.distance:.{ACCURACY}f} км; '
-                        f'Ср. скорость: {self.speed:.{ACCURACY}f} км/ч; '
-                        f'Потрачено ккал: {self.calories:.{ACCURACY}f}.')
-        return message
+        message: ClassVar[str] = (f'Тип тренировки: {}; '
+                        f'Длительность: {:.{ACCURACY}f} ч.; '
+                        f'Дистанция: {:.{ACCURACY}f} км; '
+                        f'Ср. скорость: {:.{ACCURACY}f} км/ч; '
+                        f'Потрачено ккал: {:.{ACCURACY}f}.')
+        return message.format(**as)
+"""
 
 
 class Training:
@@ -47,17 +67,13 @@ class Training:
                  weight: float,
                  *args: list
                  ) -> None:
-        # Получает данные в ед.изм "шт.":
         self.action: float = action
-        # Получает данные в ед.изм "ч.":
         self.duration: float = duration
-        # Получает данные в ед.изм "кг":
         self.weight: float = weight
 
     def get_distance(self) -> float:
         """Возвращает дистанцию в км."""
-        distance_km: float = self.action * self.LEN_STEP / self.M_IN_KM
-        return distance_km
+        return self.action * self.LEN_STEP / self.M_IN_KM
 
     def get_mean_speed(self) -> float:
         """Возвращает среднюю скорость движения."""
@@ -169,15 +185,14 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Читает данные, полученные от датчиков."""
-    WORKOUT_CLASSES: dict[str, Type] = {'SWM': Swimming,
-                                        'RUN': Running,
-                                        'WLK': SportsWalking
-                                        }
-    if workout_type not in WORKOUT_CLASSES:
-        raise Exception('<указанного типа тренировки нет в программе>')
-    else:
-        workout = WORKOUT_CLASSES[workout_type](*data)
-        return workout
+    WORKOUT_CLASSES: dict[str, Training] = {'SWM': Swimming,
+                                            'RUN': Running,
+                                            'WLK': SportsWalking
+                                            }
+    try:
+        return WORKOUT_CLASSES[workout_type](*data)
+    except KeyError:
+        print('<указанного типа тренировки нет в программе>')
 
 
 def main(training: Training) -> None:
