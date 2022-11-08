@@ -6,9 +6,10 @@
 from dataclasses import asdict, dataclass
 
 
+"""
 @dataclass
 class InfoMessage:
-    """Информационное сообщение о тренировке."""
+    ""Информационное сообщение о тренировке.""
     trainig_type: str
     duration: float
     distance: float
@@ -16,7 +17,7 @@ class InfoMessage:
     calories: float
 
     def get_message(self) -> str:
-        """Возвращает Информационное сообщение."""
+        ""Возвращает Информационное сообщение.""
 
         message: str = ('Тип тренировки: {trainig_type}; '
                         'Длительность: {duration:.3f} ч.; '
@@ -24,8 +25,6 @@ class InfoMessage:
                         'Ср. скорость: {speed:.3f} км/ч; '
                         'Потрачено ккал: {calories:.3f}.')
         return message.format(**asdict(self))
-
-
 """
 class InfoMessage:
     ""Информационное сообщение о тренировке.""
@@ -52,7 +51,6 @@ class InfoMessage:
                         f'Ср. скорость: {:.{ACCURACY}f} км/ч; '
                         f'Потрачено ккал: {:.{ACCURACY}f}.')
         return message.format(**as)
-"""
 
 
 class Training:
