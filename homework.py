@@ -4,13 +4,12 @@
 Все права не защищены.
 """
 
-"""
-# from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass
 
 
 @dataclass
 class InfoMessage:
-    ""Информационное сообщение о тренировке.""
+    """Информационное сообщение о тренировке."""
     trainig_type: str
     duration: float
     distance: float
@@ -18,7 +17,7 @@ class InfoMessage:
     calories: float
 
     def get_message(self) -> str:
-        ""Возвращает Информационное сообщение.""
+        """Возвращает Информационное сообщение."""
 
         message: str = ('Тип тренировки: {trainig_type}; '
                         'Длительность: {duration:.3f} ч.; '
@@ -26,33 +25,6 @@ class InfoMessage:
                         'Ср. скорость: {speed:.3f} км/ч; '
                         'Потрачено ккал: {calories:.3f}.')
         return message.format(**asdict(self))
-"""
-
-
-class InfoMessage:
-    """Информационное сообщение о тренировке."""
-    def __init__(self, training_type: str,
-                 duration: float,
-                 distance: float,
-                 speed: float,
-                 calories: float
-                 ) -> None:
-        self.training_type = training_type
-        self.duration = duration
-        self.distance = distance
-        self.speed = speed
-        self.calories = calories
-
-    def get_message(self) -> str:
-        """Возвращает Информационное сообщение."""
-        ACCURACY: int = 3
-        training_type: str = self.training_type
-        message: str = (f'Тип тренировки: {training_type}; '
-                        f'Длительность: {self.duration:.{ACCURACY}f} ч.; '
-                        f'Дистанция: {self.distance:.{ACCURACY}f} км; '
-                        f'Ср. скорость: {self.speed:.{ACCURACY}f} км/ч; '
-                        f'Потрачено ккал: {self.calories:.{ACCURACY}f}.')
-        return message
 
 
 class Training:
@@ -185,14 +157,7 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Читает данные, полученные от датчиков."""
-    WORKOUT_CLASSES: dict[str, Training] = {'SWM': Swimming,
-                                            'RUN': Running,
-                                            'WLK': SportsWalking
-                                            }
-    try:
-        return WORKOUT_CLASSES[workout_type](*data)
-    except KeyError:
-        print('<указанного типа тренировки нет в программе>')
+    return WORKOUT_CLASSES[workout_type](*data)
 
 
 def main(training: Training) -> None:
@@ -203,11 +168,19 @@ def main(training: Training) -> None:
 
 
 if __name__ == '__main__':
+    WORKOUT_CLASSES: dict[str, type[Training]] = {'SWM': Swimming,
+                                                  'RUN': Running,
+                                                  'WLK': SportsWalking
+                                                  }
     packages: list[tuple[str, list[int]]] = [('SWM', [720, 1, 80, 25, 40]),
                                              ('RUN', [15000, 1, 75]),
                                              ('WLK', [9000, 1, 75, 180]),
                                              ]
 
     for workout_type, data in packages:
-        training: Training = read_package(workout_type, data)
-        main(training)
+        if workout_type not in WORKOUT_CLASSES:
+            print(f'<указанного типа тренировки "{workout_type}" '
+                  f'нет в программе>')
+        else:
+            training: Training = read_package(workout_type, data)
+            main(training)
