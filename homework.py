@@ -10,7 +10,7 @@ from dataclasses import asdict, dataclass
 @dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
-    trainig_type: str
+    training_type: str
     duration: float
     distance: float
     speed: float
@@ -19,7 +19,7 @@ class InfoMessage:
     def get_message(self) -> str:
         """Возвращает Информационное сообщение."""
 
-        message: str = ('Тип тренировки: {trainig_type}; '
+        message: str = ('Тип тренировки: {training_type}; '
                         'Длительность: {duration:.3f} ч.; '
                         'Дистанция: {distance:.3f} км; '
                         'Ср. скорость: {speed:.3f} км/ч; '
@@ -155,6 +155,12 @@ class Swimming(Training):
         return spent_calories
 
 
+WORKOUT_CLASSES: dict[str, type[Training]] = {'SWM': Swimming,
+                                              'RUN': Running,
+                                              'WLK': SportsWalking
+                                              }
+
+
 def read_package(workout_type: str, data: list) -> Training:
     """Читает данные, полученные от датчиков."""
     return WORKOUT_CLASSES[workout_type](*data)
@@ -168,10 +174,6 @@ def main(training: Training) -> None:
 
 
 if __name__ == '__main__':
-    WORKOUT_CLASSES: dict[str, type[Training]] = {'SWM': Swimming,
-                                                  'RUN': Running,
-                                                  'WLK': SportsWalking
-                                                  }
     packages: list[tuple[str, list[int]]] = [('SWM', [720, 1, 80, 25, 40]),
                                              ('RUN', [15000, 1, 75]),
                                              ('WLK', [9000, 1, 75, 180]),
